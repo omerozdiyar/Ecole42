@@ -6,7 +6,7 @@
 /*   By: oozdiyar <oozdiyar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 16:18:13 by oozdiyar          #+#    #+#             */
-/*   Updated: 2022/10/12 12:57:26 by oozdiyar         ###   ########.fr       */
+/*   Updated: 2022/10/17 14:30:45 by oozdiyar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	size_control(t_data *data)
 		line = get_next_line(fd);
 		if (line[0] == '\0')
 			break ;
-		if (x != ft_strlen(line) && line[0] != '\0')
+		if (x != (int)ft_strlen(line) && line[0] != '\0')
 			err_msg("Error : Map is not rectangular");
 	}
 	if (!line)

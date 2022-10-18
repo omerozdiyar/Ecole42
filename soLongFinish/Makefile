@@ -1,39 +1,63 @@
-NAME = so_long
-OBJECTS = $(shell find ./ -name "*.o")
-A = $(shell find ./ -name "*.a")
-CC = gcc
+CC		  = gcc
+OS		= $(shell uname)
 
-FLAGS = -framework OpenGL  -framework AppKit -L./minilibx -lmlx -g
+# mlx library
+ifeq ($(OS), Linux)
+	MLX		= ./minilibx-linux/
+	MINILIBX	= minilibx-linux/libmlx.a
+	LFLAGS	= -L $(MLX) -l mlx -lXext -lX11
+else
+	MLX		= ./minilibx/
+	MINILIBX	= minilibx/libmlx.a
+	LFLAGS	= -L $(MLX) -l mlx -framework OpenGL -framework AppKit -Dunix
+endif
 
-Y = "\033[33m"
-R = "\033[31m"
-G = "\033[32m"
-B = "\033[34m"
-X = "\033[0m"
-UP = "\033[A"
-CUT = "\033[K"
+NAME		= so_long
+SRC_DIR	 = src
+SRCS		:= $(shell find $(SRC_DIR) -type f -name "*.c")
+OBJS		= $(SRCS:.c=.o)
+FT		= ./libft/
+FT_LIB	= ./libft/libft.a
+FT_PRINT		= ./ft_printf/
+FT_PRINT_LIB	= ./ft_printf/libftprintf.a
+CFLAGS	  = -Wall -Wextra -Werror -I./src -I $(MLX) -I $(FT) -glldb
 
-CFILES = $(shell find . -name "*.c")
-	
-all:
-	@make -C ./libft
-	@make -C ./ft_printf
-	@make -C ./minilibx
-	$(CC) ./src/*.c ./libft/libft.a  ./ft_printf/libftprintf.a  $(FLAGS) -o so_long
+all: $(NAME)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(NAME): $(FT_LIB) $(FT_PRINT_LIB) $(MINILIBX) $(OBJS)
+	$(CC) $(OBJS) -lm $(FT_LIB) $(FT_PRINT_LIB) -o $(NAME) $(LFLAGS)
+
+$(MINILIBX):
+	@make -C $(MLX)
+
+$(FT_PRINT_LIB):
+	@make -C $(FT_PRINT)
+
+$(FT_LIB):
+	@make -C $(FT)
 
 clean:
-	@rm -f $(OBJECTS)
-	@echo $(R)Removed [$(OBJECTS)]$(X)
+	rm -rf $(OBJS)
+	@make -C $(MLX) clean
+	@make -C $(FT) clean
+	@make -C $(FT_PRINT) clean
 
 fclean: clean
-	@rm -f $(NAME)
-	@rm -f $(A)
-	@echo $(R)Removed [$(NAME)]$(X)
+	rm -rf $(NAME)
+	@make -C $(MLX) clean
+	@make -C $(FT) fclean
+	@make -C $(FT_PRINT) fclean
 
-re: fclean all
+norminette:
+	norminette src/
+	norminette $(FT)
+	norminette $(FT_PRINT)
 
-norm:
-	@echo $(B)[--NORMINETTE SUCCES %100 CLEAN CODE...]$(B)
-	norminette $(shell find ./src/ -name "*.c")
-
-.PHONY: all clean fclean re
+re:
+	@make fclean
+	@make all
+	
+.PHONY: clean run fclean re all norminette

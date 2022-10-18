@@ -6,7 +6,7 @@
 /*   By: oozdiyar <oozdiyar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 13:58:34 by oozdiyar          #+#    #+#             */
-/*   Updated: 2022/10/11 12:19:21 by oozdiyar         ###   ########.fr       */
+/*   Updated: 2022/10/17 14:32:05 by oozdiyar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	err_msg(char *msg)
 
 int	mouse_hook(int mousecode, t_data *data)
 {
+	(void)mousecode;
+	(void)data;
 	err_msg("Exit Success");
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: oozdiyar <oozdiyar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 15:45:16 by oozdiyar          #+#    #+#             */
-/*   Updated: 2022/10/12 14:59:03 by oozdiyar         ###   ########.fr       */
+/*   Updated: 2022/10/17 17:38:07 by oozdiyar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ typedef struct l_data
 
 void		mlx_create(t_data *data);
 void		map_control(char **argv, t_data *data);
-void		ber_control(char *map_name, t_data *data);
-void		tmp_control(char *map_name, t_data *data);
+void		ber_control(char *map_name);
+void		tmp_control(char *map_name);
 void		map_read(t_data *data);
 void		map_create(t_data *data);
 void		size_control(t_data *data);
